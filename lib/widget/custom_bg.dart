@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomBackground extends StatelessWidget {
+  final Widget child;
   const CustomBackground({
-    super.key,
+    super.key, required this.child,
   });
 
   @override
@@ -11,7 +12,12 @@ class CustomBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SvgPicture.asset("assets/bd.svg", fit: BoxFit.cover,)
+        SvgPicture.asset(
+          width: double.maxFinite,
+          height: double.maxFinite,
+          "assets/bd.svg",
+          fit: BoxFit.cover,),
+        child
 
       ],
     );
