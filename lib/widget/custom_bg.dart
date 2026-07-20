@@ -11,14 +11,13 @@ class CustomBackground extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         SvgPicture.asset(
-          width: double.maxFinite,
-          height: double.maxFinite,
           "assets/bd.svg",
-          fit: BoxFit.cover,),
-        child
-
+          fit: BoxFit.cover,
+        ),
+        child,
       ],
     );
   }

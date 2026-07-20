@@ -17,45 +17,50 @@ class _RegistrationViewPageState extends State<RegistrationViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:CustomBackground(child:
-      Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          CustomTitle(title: "Join with us"),
-          SizedBox(height: 20,),
-            CustomTextField(labelText: "email"),
-            SizedBox(height: 12,),
-            CustomTextField(labelText: "first name"),
-            SizedBox(height: 12,),
-            CustomTextField(labelText: "last name"),
-            SizedBox(height: 12,),
-            CustomTextField(labelText: "mobile"),
-            SizedBox(height: 12,),
-            CustomTextField(labelText: "password"),
-            SizedBox(height: 12,),
-            CustomButton(onTap: (){},),
-            SizedBox(height: 12,),
-            Center(
-              child: RichText(text: TextSpan(children: [
-
-                TextSpan(text: "have an account?",
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                    children: [
-                      WidgetSpan(child: InkWell(
-                          onTap:(){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginView()));
-                          },
-                          child: Text(" Sign In", style: TextStyle(color: CupertinoColors.activeGreen, fontWeight: FontWeight.w600, fontSize: 16),)))
-                    ]
-                ),
-              ])),
-            )
-
-        ],),
-      ))
+      body:SafeArea(
+        child: CustomBackground(child:
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                CustomTitle(title: "Join With Us"),
+                SizedBox(height: 20,),
+                  CustomTextField(labelText: "email"),
+                  SizedBox(height: 12,),
+                  CustomTextField(labelText: "first name"),
+                  SizedBox(height: 12,),
+                  CustomTextField(labelText: "last name"),
+                  SizedBox(height: 12,),
+                  CustomTextField(labelText: "mobile"),
+                  SizedBox(height: 12,),
+                  CustomTextField(labelText: "password"),
+                  SizedBox(height: 12,),
+                  CustomButton(onTap: (){},),
+                  SizedBox(height: 12,),
+                  Center(
+                    child: RichText(text: TextSpan(children: [
+                      TextSpan(text: "have an account?",
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black54),
+                          children: [
+                            WidgetSpan(child: InkWell(
+                                onTap:(){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginView()));
+                                },
+                                child: Text(" Sign In", style: TextStyle(color: CupertinoColors.activeGreen, fontWeight: FontWeight.w600, fontSize: 16),)))
+                          ]
+                      ),
+                    ])),
+                  )
+        
+              ],),
+            ),
+          ),
+        )),
+      )
     );
   }
 }

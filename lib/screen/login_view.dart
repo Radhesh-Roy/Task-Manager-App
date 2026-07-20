@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/screen/bottom_bar.dart';
 import 'package:task_manager/screen/reg_view.dart';
 import 'package:task_manager/widget/custom_bg.dart';
 
@@ -31,7 +32,9 @@ class _LoginViewState extends State<LoginView> {
             SizedBox(height: 15,),
             CustomTextField(labelText: 'password',),
             SizedBox(height: 15,),
-            CustomButton(onTap: () { },),
+            CustomButton(onTap: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomBarView()));
+            },),
             SizedBox(height: 20,),
             Center(child: Text("Forgot Password?", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.grey),)),
             SizedBox(height: 10,),
@@ -39,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
               child: RichText(text: TextSpan(children: [
 
                 TextSpan(text: "Don't have an account?",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black54),
                   children: [
                     WidgetSpan(child: InkWell(
                         onTap:(){
