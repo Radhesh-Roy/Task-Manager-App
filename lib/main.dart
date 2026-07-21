@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/screen/new_task_view.dart';
 import 'package:task_manager/screen/splash_screen.dart';
 
 void main() {
@@ -13,9 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Task Manager',
-      initialRoute:"/splash" ,
+      initialRoute:"/newtask" ,
       routes: {
-        "/splash": (context)=> SplashScreenView()
+        "/splash": (context)=> SplashScreenView(),
+        "/newtask": (context)=> NewTaskView()
       },
     );
   }
