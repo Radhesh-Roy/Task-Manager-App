@@ -28,6 +28,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                     decoration: BoxDecoration(
                       color: Colors.white
                     ),
+
                     child: Column(
                       children: [
                         Text("09", style: TextStyle(fontWeight: FontWeight.w600),),
