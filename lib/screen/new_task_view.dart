@@ -41,6 +41,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                       return SizedBox(width: 5,);
                     },),
             )
+
           ],
         ),
         ),
