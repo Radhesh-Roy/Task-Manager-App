@@ -37,7 +37,6 @@ class _NewTaskViewState extends State<NewTaskView> {
                     ),
                   );
               },
-
                     separatorBuilder:(context, index) {
                       return SizedBox(width: 5,);
                     },),
