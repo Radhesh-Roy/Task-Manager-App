@@ -13,7 +13,6 @@ class BottomBarView extends StatefulWidget {
 
 class _BottomBarViewState extends State<BottomBarView> {
   int selectedIndex=0;
-
   List screens=[
     NewTaskView(),
     ProgressTaskView(),
@@ -23,15 +22,30 @@ class _BottomBarViewState extends State<BottomBarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        backgroundColor: Colors.green.shade400,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Radhesh", style: TextStyle(fontSize: 17, color: Colors.white),),
+            Text("radheshroy0011@gmail.com",style: TextStyle(fontSize: 14, color: Colors.white),),
+          ],
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
+          child: CircleAvatar(
+            backgroundImage: AssetImage("assets/splash.png",),
+          ),
+        ),
+      ),
       body: screens[selectedIndex],
-
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
           onDestinationSelected: (int index){
           selectedIndex=index;
           setState(() {
-
           });
           },
           destinations:[

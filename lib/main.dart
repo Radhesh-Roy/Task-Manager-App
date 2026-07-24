@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Task Manager',
-      initialRoute:"/newtask" ,
+      initialRoute:"/splash" ,
       routes: {
         "/splash": (context)=> SplashScreenView(),
         "/newtask": (context)=> NewTaskView()
