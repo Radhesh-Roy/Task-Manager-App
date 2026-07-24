@@ -19,6 +19,7 @@ class _BottomBarViewState extends State<BottomBarView> {
     CancelTaskView(),
     CompleteTaskView(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +28,6 @@ class _BottomBarViewState extends State<BottomBarView> {
         elevation: 0,
         scrolledUnderElevation: 0,
         title: Column(
-
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Radhesh", style: TextStyle(fontSize: 17, color: Colors.white),),
