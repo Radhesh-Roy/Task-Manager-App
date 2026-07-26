@@ -38,11 +38,11 @@ class _BottomBarViewState extends State<BottomBarView> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
           child: CircleAvatar(
+
             backgroundImage: AssetImage("assets/splash.png",),
           ),
         ),
       ),
-
       body: screens[selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
