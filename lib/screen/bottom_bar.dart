@@ -41,6 +41,7 @@ class _BottomBarViewState extends State<BottomBarView> {
             backgroundImage: AssetImage("assets/splash.png",),
           ),
         ),
+
       ),
       body: screens[selectedIndex],
       bottomNavigationBar: NavigationBar(
