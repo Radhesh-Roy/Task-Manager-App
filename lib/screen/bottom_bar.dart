@@ -42,8 +42,6 @@ class _BottomBarViewState extends State<BottomBarView> {
           ),
         ),
 
-
-
       ),
       body: screens[selectedIndex],
       bottomNavigationBar: NavigationBar(
