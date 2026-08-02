@@ -32,7 +32,6 @@ class _BottomBarViewState extends State<BottomBarView> {
           children: [
             Text("Radhesh", style: TextStyle(fontSize: 17, color: Colors.white),),
             Text("radheshroy0011@gmail.com",style: TextStyle(fontSize: 14, color: Colors.white),),
-
           ],
         ),
         leading: Padding(
@@ -41,7 +40,6 @@ class _BottomBarViewState extends State<BottomBarView> {
             backgroundImage: AssetImage("assets/splash.png",),
           ),
         ),
-
       ),
       body: screens[selectedIndex],
       bottomNavigationBar: NavigationBar(
