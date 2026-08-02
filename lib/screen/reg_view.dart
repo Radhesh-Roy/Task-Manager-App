@@ -55,7 +55,6 @@ class _RegistrationViewPageState extends State<RegistrationViewPage> {
                       ),
                     ])),
                   )
-        
               ],),
             ),
           ),
