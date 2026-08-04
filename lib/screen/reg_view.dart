@@ -41,6 +41,7 @@ class _RegistrationViewPageState extends State<RegistrationViewPage> {
                   SizedBox(height: 12,),
                   CustomButton(onTap: (){},),
                   SizedBox(height: 12,),
+
                   Center(
                     child: RichText(text: TextSpan(children: [
                       TextSpan(text: "have an account?",
