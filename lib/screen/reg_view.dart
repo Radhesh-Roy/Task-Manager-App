@@ -40,6 +40,7 @@ class _RegistrationViewPageState extends State<RegistrationViewPage> {
                   CustomTextField(labelText: "password"),
                   SizedBox(height: 12,),
                   CustomButton(onTap: (){},),
+
                   SizedBox(height: 12,),
                   Center(
                     child: RichText(text: TextSpan(children: [
