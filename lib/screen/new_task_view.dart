@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/model/task_model.dart';
+import 'package:task_manager/screen/add_new_task.dart';
 
 import '../widget/custom_task_card.dart';
 
@@ -19,7 +20,10 @@ class _NewTaskViewState extends State<NewTaskView> {
         backgroundColor: Colors.blue,
         tooltip: "Add Task",
         shape: CircleBorder(),
-        onPressed: (){}, child: Text("+", style: TextStyle(color: Colors.white, fontSize: 20),),),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewTask()));
+
+        }, child: Text("+", style: TextStyle(color: Colors.white, fontSize: 20),),),
       body:SafeArea(
         child: Padding(padding: EdgeInsets.all(15),
         child: Column(

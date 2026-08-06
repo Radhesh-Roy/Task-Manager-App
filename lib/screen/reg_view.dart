@@ -27,8 +27,8 @@ class _RegistrationViewPageState extends State<RegistrationViewPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                CustomTitle(title: "Join With Us"),
-                SizedBox(height: 20,),
+                  CustomTitle(title: "Join With Us"),
+                  SizedBox(height: 20,),
                   CustomTextField(labelText: "email"),
                   SizedBox(height: 12,),
                   CustomTextField(labelText: "first name"),

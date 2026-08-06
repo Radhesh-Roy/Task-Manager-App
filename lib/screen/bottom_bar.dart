@@ -3,6 +3,7 @@ import 'package:task_manager/screen/cancel_task_view.dart';
 import 'package:task_manager/screen/complete_task_view.dart';
 import 'package:task_manager/screen/new_task_view.dart';
 import 'package:task_manager/screen/progress_task_view.dart';
+import 'package:task_manager/screen/update_profile_view.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView({super.key});
@@ -36,8 +37,13 @@ class _BottomBarViewState extends State<BottomBarView> {
         ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
-          child: CircleAvatar(
-            backgroundImage: AssetImage("assets/splash.png",),
+          child: InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>UpdateProfileView()));
+            },
+            child: CircleAvatar(
+              backgroundImage: AssetImage("assets/splash.png",),
+            ),
           ),
         ),
       ),
