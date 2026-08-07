@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../data/model/task_model.dart';
+import '../data/service/api_caller.dart';
+import '../utils/urls.dart';
 import '../widget/custom_task_card.dart';
 
 class ProgressTaskView extends StatefulWidget {
@@ -10,6 +12,37 @@ class ProgressTaskView extends StatefulWidget {
   State<ProgressTaskView> createState() => _ProgressTaskViewState();
 }
 class _ProgressTaskViewState extends State<ProgressTaskView> {
+  List<TaskModel>taskList = [];
+
+  Future<void>getAllTask() async {
+    final response = await ApiCaller().getRequest(URL: TMUrls.AllTask('Progress'));
+
+    List<TaskModel> temList=[];
+
+    if(response.isSuccess){
+      for(Map<String,dynamic>jsonData in response.responseData['data']){
+        temList.add(TaskModel.fromJson(jsonData));
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.responseData['data'])));
+
+    }
+
+    taskList = temList;
+
+    setState(() {
+
+    });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAllTask();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,15 +54,15 @@ class _ProgressTaskViewState extends State<ProgressTaskView> {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 5,
+                    itemCount: taskList.length,
                     itemBuilder: (context, index) {
                       return CustomTaskCard(taskModel: TaskModel(
-                        title: "This is title",
-                        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London,",
-                        status: "Progress",
-                        createdDate: "24/07/2026",
+                        title: "${taskList[index].title}",
+                        description: "${taskList[index].description}",
+                        status: "${taskList[index].status}",
+                        createdDate: "${taskList[index].createdDate}",
                       ),
-                        statusColor: Colors.purple,);
+                        statusColor: Colors.purple, refreshParent: () {  },);
                     },),
                 )
 
