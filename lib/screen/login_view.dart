@@ -6,7 +6,9 @@ import 'package:task_manager/screen/bottom_bar.dart';
 import 'package:task_manager/screen/reg_view.dart';
 import 'package:task_manager/widget/custom_bg.dart';
 
+import '../controller/auth_controller.dart';
 import '../data/model/api_response.dart';
+import '../data/model/user_model.dart';
 import '../data/service/api_caller.dart';
 import '../utils/urls.dart';
 import '../widget/custom_button.dart';
@@ -30,6 +32,11 @@ class _LoginViewState extends State<LoginView> {
     });
 
     if(response.isSuccess){
+      UserModel model = UserModel.fromJson(response.responseData['data']);
+      String token = response.responseData['token'];
+      AuthController.saveUserData(model, token);
+      log("${response.responseData['token']}");
+
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomBarView()));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login Success")));
 
@@ -82,6 +89,8 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 15,),
               CustomButton(onTap: () {
                 if(_formKey.currentState!.validate()){
+
+
                   login();
 
                 }
