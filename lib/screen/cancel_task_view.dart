@@ -27,11 +27,8 @@ class _CancelTaskViewState extends State<CancelTaskView> {
       }
     }else{
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.responseData['data'])));
-
     }
-
     taskList = temList;
-
     setState(() {
 
     });
@@ -55,16 +52,25 @@ class _CancelTaskViewState extends State<CancelTaskView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(
-                  child: ListView.builder(
+                  child: taskList.isEmpty
+                      ? const Center(
+                    child: Text(
+                      "No Task Found",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ) : ListView.builder(
                     itemCount: taskList.length,
                     itemBuilder: (context, index) {
-                      return CustomTaskCard(taskModel: TaskModel(
-                        title: "${taskList[index].title}",
-                        description: "${taskList[index].description}",
-                        status: "${taskList[index].status}",
-                        createdDate: "${taskList[index].createdDate}",
-                      ),
-                        statusColor: Colors.redAccent, refreshParent: () { getAllTask(); },);
+                      return CustomTaskCard(
+                        taskModel: taskList[index],
+                        statusColor: Colors.redAccent,
+                        refreshParent: () async {
+                          await getAllTask();
+                        },
+                      );
                     },),
                 )
 

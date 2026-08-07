@@ -36,9 +36,11 @@ class _NewTaskViewState extends State<NewTaskView> {
       getAllTask(),
     ]);
 
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<void> getAllTaskCount() async {
@@ -60,7 +62,7 @@ class _NewTaskViewState extends State<NewTaskView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            response.responseData['message'] ?? "Something went wrong",
+            response.responseData?['message'] ?? "Something went wrong",
           ),
         ),
       );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/screen/new_task_view.dart';
 import 'package:task_manager/widget/custom_bg.dart';
 import 'package:task_manager/widget/custom_button.dart';
 import 'package:task_manager/widget/custom_text_field.dart';
@@ -96,10 +95,10 @@ class _AddNewTaskState extends State<AddNewTask> {
                 ),
               ),
               SizedBox(height: 15,),
-              CustomButton(onTap: (){
+              CustomButton(onTap: () async {
                 if(_formKey.currentState!.validate()){
-                  createTask();
-                  Navigator.pop(context);
+                  await createTask();
+                  Navigator.pop(context, true);
                 }
 
               },  )
