@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:task_manager/data/model/task_model.dart';
+import 'package:task_manager/data/model/user_model.dart';
+import 'package:task_manager/data/service/api_caller.dart';
 import 'package:task_manager/screen/cancel_task_view.dart';
 import 'package:task_manager/screen/complete_task_view.dart';
 import 'package:task_manager/screen/new_task_view.dart';
 import 'package:task_manager/screen/progress_task_view.dart';
 import 'package:task_manager/screen/update_profile_view.dart';
+import 'package:task_manager/utils/urls.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView({super.key});
@@ -13,6 +20,44 @@ class BottomBarView extends StatefulWidget {
 }
 
 class _BottomBarViewState extends State<BottomBarView> {
+  List<UserModel> profileDetails=[];
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  Future<void>getUser()async{
+    final response= await ApiCaller().getRequest(URL: TMUrls.profileDetails);
+    List<UserModel> tempList=[];
+
+    if(response.isSuccess){
+      for(Map<String, dynamic>jsonData in response.responseData['data']){
+        tempList.add(UserModel.fromJson(jsonData));
+
+    }
+    setState(() {
+      profileDetails=tempList;
+    });
+
+    }else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.responseData["data"])));
+
+    }
+
+    }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+
+
+  }
+
+
+
   int selectedIndex=0;
   List screens=[
     NewTaskView(),
@@ -52,8 +97,6 @@ class _BottomBarViewState extends State<BottomBarView> {
         selectedIndex: selectedIndex,
           onDestinationSelected: (int index){
           selectedIndex=index;
-          setState(() {
-          });
           },
           destinations:[
         NavigationDestination(icon: Icon(Icons.task_outlined), label: "New Task"),
@@ -63,4 +106,3 @@ class _BottomBarViewState extends State<BottomBarView> {
       ])
     );
   }
-}
