@@ -25,7 +25,6 @@ class TaskProfile {
     password = json['password'];
     createdDate = json['createdDate'];
   }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
