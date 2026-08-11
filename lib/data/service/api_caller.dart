@@ -8,7 +8,6 @@ import '../../controller/auth_controller.dart';
 class ApiCaller {
 
   Future<ApiResponse>getRequest({required String URL}) async {
-
     try{
       Uri url=Uri.parse(URL);
     Response response = await get(url, headers: {
