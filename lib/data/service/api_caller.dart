@@ -20,7 +20,6 @@ class ApiCaller {
       else{
         return ApiResponse(responseCode: response.statusCode, responseData: jsonDecode(response.body), isSuccess: false, errorMessage: jsonDecode(response.body));
       }
-
     }catch(e){
       return ApiResponse(responseCode: -1, responseData: null, isSuccess: false, errorMessage:e.toString());
 
