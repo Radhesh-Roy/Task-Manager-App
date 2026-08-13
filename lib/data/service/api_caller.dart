@@ -18,7 +18,6 @@ class ApiCaller {
         return ApiResponse(responseCode: response.statusCode, responseData: jsonDecode(response.body), isSuccess:true);
       }
       else{
-
         return ApiResponse(responseCode: response.statusCode, responseData: jsonDecode(response.body), isSuccess: false, errorMessage: jsonDecode(response.body));
       }
     }catch(e){
