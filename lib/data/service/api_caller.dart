@@ -23,7 +23,6 @@ class ApiCaller {
     }catch(e){
       return ApiResponse(responseCode: -1, responseData: null, isSuccess: false, errorMessage:e.toString());
     }
-
   }
 
   Future<ApiResponse>postRequest({required String URL, Map<String, dynamic>?body}) async {
