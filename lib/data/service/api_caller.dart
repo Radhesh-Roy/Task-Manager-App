@@ -22,7 +22,6 @@ class ApiCaller {
       }
     }catch(e){
       return ApiResponse(responseCode: -1, responseData: null, isSuccess: false, errorMessage:e.toString());
-
     }
 
   }
