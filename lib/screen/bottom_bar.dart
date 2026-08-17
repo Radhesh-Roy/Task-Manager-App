@@ -17,7 +17,6 @@ class BottomBarView extends StatefulWidget {
 
 class _BottomBarViewState extends State<BottomBarView> {
   List<UserModel> profileDetails = [];
-
   int selectedIndex = 0;
 
   final List<Widget> screens = [
