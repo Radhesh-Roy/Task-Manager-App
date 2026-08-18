@@ -26,6 +26,7 @@ class _BottomBarViewState extends State<BottomBarView> {
     const CompleteTaskView(),
   ];
 
+
   @override
   void initState() {
     super.initState();
