@@ -14,7 +14,6 @@ class BottomBarView extends StatefulWidget {
   @override
   State<BottomBarView> createState() => _BottomBarViewState();
 }
-
 class _BottomBarViewState extends State<BottomBarView> {
   List<UserModel> profileDetails = [];
   int selectedIndex = 0;
