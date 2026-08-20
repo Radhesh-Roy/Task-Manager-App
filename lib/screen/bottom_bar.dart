@@ -10,7 +10,6 @@ import 'package:task_manager/utils/urls.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView({super.key});
-
   @override
   State<BottomBarView> createState() => _BottomBarViewState();
 }
