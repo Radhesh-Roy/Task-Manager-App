@@ -29,7 +29,6 @@ class _BottomBarViewState extends State<BottomBarView> {
     super.initState();
     getUser();
   }
-
   Future<void> getUser() async {
     final response = await ApiCaller().getRequest(
       URL: TMUrls.profileDetails,
