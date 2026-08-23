@@ -26,6 +26,7 @@ class _BottomBarViewState extends State<BottomBarView> {
   @override
   void initState() {
     super.initState();
+
     getUser();
   }
   Future<void> getUser() async {
