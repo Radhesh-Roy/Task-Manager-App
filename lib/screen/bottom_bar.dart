@@ -41,7 +41,6 @@ class _BottomBarViewState extends State<BottomBarView> {
           UserModel.fromJson(jsonData),
         );
       }
-
       if (!mounted) return;
 
       setState(() {
