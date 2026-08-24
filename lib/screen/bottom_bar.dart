@@ -42,7 +42,6 @@ class _BottomBarViewState extends State<BottomBarView> {
         );
       }
       if (!mounted) return;
-
       setState(() {
         profileDetails = tempList;
       });
