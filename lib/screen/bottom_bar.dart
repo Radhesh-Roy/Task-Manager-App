@@ -47,7 +47,6 @@ class _BottomBarViewState extends State<BottomBarView> {
       });
     } else {
       if (!mounted) return;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
