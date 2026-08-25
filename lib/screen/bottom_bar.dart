@@ -34,7 +34,6 @@ class _BottomBarViewState extends State<BottomBarView> {
     );
     if (response.isSuccess) {
       List<UserModel> tempList = [];
-
       for (Map<String, dynamic> jsonData
       in response.responseData['data']) {
         tempList.add(
