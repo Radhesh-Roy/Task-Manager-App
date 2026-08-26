@@ -32,6 +32,7 @@ class _BottomBarViewState extends State<BottomBarView> {
     final response = await ApiCaller().getRequest(
       URL: TMUrls.profileDetails,
     );
+
     if (response.isSuccess) {
       List<UserModel> tempList = [];
       for (Map<String, dynamic> jsonData
