@@ -31,6 +31,7 @@ class _BottomBarViewState extends State<BottomBarView> {
   Future<void> getUser() async {
     final response = await ApiCaller().getRequest(
       URL: TMUrls.profileDetails,
+
     );
 
     if (response.isSuccess) {
