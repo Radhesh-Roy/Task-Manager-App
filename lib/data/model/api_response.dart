@@ -5,7 +5,6 @@ class ApiResponse {
   final String ? errorMessage;
 
 
-
   ApiResponse({
     required this.responseCode,
     required this.responseData,
