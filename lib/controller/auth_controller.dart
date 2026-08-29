@@ -7,6 +7,7 @@ import '../data/model/user_model.dart';
 class AuthController {
 
   static String ? token;
+
   static UserModel ? userData;
 
   static Future saveUserData(UserModel model, String token) async {
@@ -15,6 +16,7 @@ class AuthController {
     await sharedPreferences.setString(
       'user-data',
       jsonEncode(model.toJson()),
+
     );
 
     AuthController.token = token;
