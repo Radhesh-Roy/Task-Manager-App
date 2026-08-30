@@ -11,27 +11,19 @@ class UpdateProfileView extends StatefulWidget {
   const UpdateProfileView({super.key});
 
   @override
-  State<UpdateProfileView> createState() =>
-      _UpdateProfileViewState();
+  State<UpdateProfileView> createState() => _UpdateProfileViewState();
 }
 
-class _UpdateProfileViewState
-    extends State<UpdateProfileView> {
+class _UpdateProfileViewState extends State<UpdateProfileView> {
+  final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController emailController =
-  TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
 
-  final TextEditingController firstNameController =
-  TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
 
-  final TextEditingController lastNameController =
-  TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
 
-  final TextEditingController mobileController =
-  TextEditingController();
-
-  final TextEditingController passwordController =
-  TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -62,35 +54,26 @@ class _UpdateProfileViewState
     return Scaffold(
       body: Consumer<ProfileProvider>(
         builder: (context, provider, child) {
-
           // =========================
           // LOADING
           // =========================
 
           if (provider.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           // =========================
           // SET PROFILE DATA
           // =========================
 
-          if (provider.userModel != null &&
-              emailController.text.isEmpty) {
+          if (provider.userModel != null && emailController.text.isEmpty) {
+            emailController.text = provider.userModel!.email ?? "";
 
-            emailController.text =
-                provider.userModel!.email ?? "";
+            firstNameController.text = provider.userModel!.firstName ?? "";
 
-            firstNameController.text =
-                provider.userModel!.firstName ?? "";
+            lastNameController.text = provider.userModel!.lastName ?? "";
 
-            lastNameController.text =
-                provider.userModel!.lastName ?? "";
-
-            mobileController.text =
-                provider.userModel!.mobile ?? "";
+            mobileController.text = provider.userModel!.mobile ?? "";
           }
 
           return CustomBackground(
@@ -99,138 +82,73 @@ class _UpdateProfileViewState
                 padding: const EdgeInsets.all(40),
                 child: Column(
                   children: [
-
-                    // =========================
-                    // TITLE
-                    // =========================
-
-                    CustomTitle(
-                      title: "Update Profile",
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    // =========================
-                    // EMAIL
-                    // =========================
-
+                    CustomTitle(title: "Update Profile"),
+                    SizedBox(height: 15),
+                    //email
                     CustomTextField(
                       labelText: "email",
                       controller: emailController,
                     ),
-
-                    const SizedBox(height: 10),
-
-                    // =========================
-                    // FIRST NAME
-                    // =========================
-
+                    SizedBox(height: 10),
+                    //first name
                     CustomTextField(
                       labelText: "first name",
                       controller: firstNameController,
                     ),
-
-                    const SizedBox(height: 10),
-
-                    // =========================
-                    // LAST NAME
-                    // =========================
-
+                    SizedBox(height: 10),
+                    //last name
                     CustomTextField(
                       labelText: "last name",
                       controller: lastNameController,
                     ),
-
-                    const SizedBox(height: 10),
-
-                    // =========================
-                    // MOBILE
-                    // =========================
-
+                    SizedBox(height: 10),
+                    //mobile
                     CustomTextField(
                       labelText: "mobile",
                       controller: mobileController,
                     ),
-
-                    const SizedBox(height: 10),
-
-                    // =========================
-                    // PASSWORD
-                    // =========================
-
+                    SizedBox(height: 10),
+                    //password
                     CustomTextField(
                       labelText: "password",
                       controller: passwordController,
                     ),
-
-                    const SizedBox(height: 15),
-
-                    // =========================
-                    // UPDATE BUTTON
-                    // =========================
-
+                    SizedBox(height: 15),
                     provider.isUpdating
-                        ? const CircularProgressIndicator()
+                        ? CircularProgressIndicator()
                         : CustomButton(
-                      onTap: () async {
+                            onTap: () async {
+                              final success = await context.read<ProfileProvider>().updateProfile(
+                                    email: emailController.text,
+                                    firstName: firstNameController.text,
+                                    lastName: lastNameController.text,
+                                    mobile: mobileController.text,
+                                    password: passwordController.text,
+                                  );
 
-                        final success =
-                        await context
-                            .read<ProfileProvider>()
-                            .updateProfile(
-                          email:
-                          emailController.text,
+                              if (!context.mounted) {
+                                return;
+                              }
+                              if (success) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Profile Updated Successfully",
+                                    ),
+                                  ),
+                                );
 
-                          firstName:
-                          firstNameController.text,
-
-                          lastName:
-                          lastNameController.text,
-
-                          mobile:
-                          mobileController.text,
-
-                          password:
-                          passwordController.text,
-                        );
-
-                        if (!context.mounted) {
-                          return;
-                        }
-
-                        // =========================
-                        // SUCCESS
-                        // =========================
-
-                        if (success) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "Profile Updated Successfully",
-                              ),
-                            ),
-                          );
-
-                          Navigator.pop(context);
-                        }
-
-                        // =========================
-                        // FAILED
-                        // =========================
-
-                        else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "Profile Update Failed",
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                                Navigator.pop(context);
+                              }
+                              else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Profile Update Failed"),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
                   ],
                 ),
               ),

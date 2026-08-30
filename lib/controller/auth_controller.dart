@@ -52,8 +52,6 @@ class AuthController {
     }else{
       return false;
     }
-
-    // return tkn != null;
   }
 
 }

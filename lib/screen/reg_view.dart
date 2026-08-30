@@ -13,30 +13,17 @@ class RegistrationViewPage extends StatefulWidget {
   const RegistrationViewPage({super.key});
 
   @override
-  State<RegistrationViewPage> createState() =>
-      _RegistrationViewPageState();
+  State<RegistrationViewPage> createState() => _RegistrationViewPageState();
 }
 
-class _RegistrationViewPageState
-    extends State<RegistrationViewPage> {
+class _RegistrationViewPageState extends State<RegistrationViewPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final GlobalKey<FormState> _formKey =
-  GlobalKey<FormState>();
-
-  final TextEditingController emailController =
-  TextEditingController();
-
-  final TextEditingController firstNameController =
-  TextEditingController();
-
-  final TextEditingController lastNameController =
-  TextEditingController();
-
-  final TextEditingController mobileController =
-  TextEditingController();
-
-  final TextEditingController passwordController =
-  TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -63,164 +50,124 @@ class _RegistrationViewPageState
 
                 child: Center(
                   child: Column(
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      CustomTitle(title: "Join With Us"),
 
-                      CustomTitle(
-                        title: "Join With Us",
-                      ),
-
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
 
                       CustomTextField(
                         labelText: "email",
                         controller: emailController,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter email';
                           }
                           return null;
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       CustomTextField(
                         labelText: "first name",
                         controller: firstNameController,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter first name';
                           }
                           return null;
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       CustomTextField(
                         labelText: "last name",
                         controller: lastNameController,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter last name';
                           }
                           return null;
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       CustomTextField(
                         labelText: "mobile",
                         controller: mobileController,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter mobile';
                           }
                           return null;
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       CustomTextField(
                         labelText: "password",
                         controller: passwordController,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter password';
                           }
                           return null;
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       Consumer<AuthProvider>(
                         builder: (context, provider, child) {
-
                           if (provider.isLoading) {
                             return const Center(
-                              child:
-                              CircularProgressIndicator(),
+                              child: CircularProgressIndicator(),
                             );
                           }
 
                           return CustomButton(
                             onTap: () async {
-
-                              if (_formKey.currentState!
-                                  .validate()) {
-
-                                final success =
-                                await context
+                              if (_formKey.currentState!.validate()) {
+                                final success = await context
                                     .read<AuthProvider>()
                                     .register(
-                                  email:
-                                  emailController
-                                      .text,
+                                      email: emailController.text,
 
-                                  firstName:
-                                  firstNameController
-                                      .text,
+                                      firstName: firstNameController.text,
 
-                                  lastName:
-                                  lastNameController
-                                      .text,
+                                      lastName: lastNameController.text,
 
-                                  mobile:
-                                  mobileController
-                                      .text,
+                                      mobile: mobileController.text,
 
-                                  password:
-                                  passwordController
-                                      .text,
-                                );
+                                      password: passwordController.text,
+                                    );
 
                                 if (!context.mounted) {
                                   return;
                                 }
 
                                 if (success) {
-
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) =>
-                                      const LoginView(),
+                                      builder: (_) => LoginView(),
                                     ),
                                   );
 
-                                  ScaffoldMessenger.of(
-                                      context)
-                                      .showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        "Register Success",
-                                      ),
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Register Success"),
                                     ),
                                   );
-
                                 } else {
-
-                                  ScaffoldMessenger.of(
-                                      context)
-                                      .showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        "Register Failed",
-                                      ),
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Register Failed"),
                                     ),
                                   );
                                 }
@@ -230,19 +177,17 @@ class _RegistrationViewPageState
                         },
                       ),
 
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
 
                       Center(
                         child: RichText(
                           text: TextSpan(
                             children: [
-
-                              const TextSpan(
+                              TextSpan(
                                 text: "have an account? ",
 
                                 style: TextStyle(
-                                  fontWeight:
-                                  FontWeight.w600,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                   color: Colors.black54,
                                 ),
@@ -254,20 +199,17 @@ class _RegistrationViewPageState
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) =>
-                                        const LoginView(),
+                                        builder: (_) => LoginView(),
                                       ),
                                     );
                                   },
 
-                                  child: const Text(
+                                  child: Text(
                                     "Sign In",
 
                                     style: TextStyle(
-                                      color: CupertinoColors
-                                          .activeGreen,
-                                      fontWeight:
-                                      FontWeight.w600,
+                                      color: CupertinoColors.activeGreen,
+                                      fontWeight: FontWeight.w600,
                                       fontSize: 16,
                                     ),
                                   ),

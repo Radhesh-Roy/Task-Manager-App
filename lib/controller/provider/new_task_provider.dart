@@ -14,28 +14,20 @@ class TaskProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    await Future.wait([
-      getAllTaskCount(),
-      getAllTask(),
-    ]);
+    await Future.wait([getAllTaskCount(), getAllTask()]);
 
     isLoading = false;
     notifyListeners();
   }
 
   Future<void> getAllTaskCount() async {
-    final response = await ApiCaller().getRequest(
-      URL: TMUrls.taskCount,
-    );
+    final response = await ApiCaller().getRequest(URL: TMUrls.taskCount);
 
     if (response.isSuccess) {
       List<TaskStatusCountModel> tempList = [];
 
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(
-          TaskStatusCountModel.fromJson(jsonData),
-        );
+      for (Map<String, dynamic> jsonData in response.responseData['data']) {
+        tempList.add(TaskStatusCountModel.fromJson(jsonData));
       }
 
       taskCountList = tempList;
@@ -45,18 +37,13 @@ class TaskProvider extends ChangeNotifier {
   }
 
   Future<void> getAllTask() async {
-    final response = await ApiCaller().getRequest(
-      URL: TMUrls.AllTask('New'),
-    );
+    final response = await ApiCaller().getRequest(URL: TMUrls.AllTask('New'));
 
     if (response.isSuccess) {
       List<TaskModel> tempList = [];
 
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(
-          TaskModel.fromJson(jsonData),
-        );
+      for (Map<String, dynamic> jsonData in response.responseData['data']) {
+        tempList.add(TaskModel.fromJson(jsonData));
       }
 
       taskList = tempList;

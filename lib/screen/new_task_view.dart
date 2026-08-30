@@ -17,9 +17,7 @@ class _NewTaskViewState extends State<NewTaskView> {
   void initState() {
     super.initState();
 
-    Future.microtask(() {
-      context.read<TaskProvider>().loadData();
-    });
+    Future.microtask(() {context.read<TaskProvider>().loadData();});
   }
 
   @override
@@ -29,19 +27,14 @@ class _NewTaskViewState extends State<NewTaskView> {
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        shape: const CircleBorder(),
+        shape:  CircleBorder(),
 
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        child:  Icon(Icons.add, color: Colors.white),
 
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => const AddNewTask(),
-            ),
+            MaterialPageRoute(builder: (_) => AddNewTask()),
           );
 
           await context.read<TaskProvider>().loadData();
@@ -56,70 +49,50 @@ class _NewTaskViewState extends State<NewTaskView> {
             builder: (context, provider, child) {
               return Column(
                 children: [
-
-                  // =========================
-                  // TASK COUNT
-                  // =========================
-
                   SizedBox(
                     height: 80,
 
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
 
-                      itemCount:
-                      provider.taskCountList.length,
+                      itemCount: provider.taskCountList.length,
 
-                      separatorBuilder: (_, __) =>
-                      const SizedBox(width: 10),
+                      separatorBuilder: (_, __) => SizedBox(width: 10),
 
                       itemBuilder: (context, index) {
                         return Container(
                           width: 120,
 
-                          padding:
-                          const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
 
                           decoration: BoxDecoration(
                             color: Colors.white,
 
-                            borderRadius:
-                            BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10),
 
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                              ),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 4),
                             ],
                           ),
 
                           child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
 
                             children: [
-
                               Text(
-                                provider
-                                    .taskCountList[index]
-                                    .sId ??
-                                    "",
+                                provider.taskCountList[index].sId ?? "",
 
-                                style: const TextStyle(
-                                  fontWeight:
-                                  FontWeight.bold,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
 
-                              const SizedBox(height: 5),
+                              SizedBox(height: 5),
 
                               Text(
                                 "${provider.taskCountList[index].sum ?? 0}",
 
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                ),
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -128,46 +101,28 @@ class _NewTaskViewState extends State<NewTaskView> {
                     ),
                   ),
 
-                  const SizedBox(height: 15),
-
-                  // =========================
-                  // TASK LIST
-                  // =========================
+                  SizedBox(height: 15),
 
                   Expanded(
                     child: provider.isLoading
-                        ? const Center(
-                      child:
-                      CircularProgressIndicator(),
-                    )
-
+                        ? Center(child: CircularProgressIndicator())
                         : provider.taskList.isEmpty
-                        ? const Center(
-                      child:
-                      Text("No Task Found"),
-                    )
-
+                        ? Center(child: Text("No Task Found"))
                         : ListView.builder(
-                      itemCount:
-                      provider.taskList.length,
+                            itemCount: provider.taskList.length,
 
-                      itemBuilder:
-                          (context, index) {
-                        return CustomTaskCard(
-                          taskModel:
-                          provider.taskList[index],
+                            itemBuilder: (context, index) {
+                              return CustomTaskCard(
+                                taskModel: provider.taskList[index],
 
-                          statusColor:
-                          Colors.blue,
+                                statusColor: Colors.blue,
 
-                          refreshParent: () async {
-                            await context
-                                .read<TaskProvider>()
-                                .loadData();
-                          },
-                        );
-                      },
-                    ),
+                                refreshParent: () async {
+                                  await context.read<TaskProvider>().loadData();
+                                },
+                              );
+                            },
+                          ),
                   ),
                 ],
               );

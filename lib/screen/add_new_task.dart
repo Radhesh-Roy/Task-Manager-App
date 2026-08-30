@@ -16,96 +16,92 @@ class AddNewTask extends StatefulWidget {
 }
 
 class _AddNewTaskState extends State<AddNewTask> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-
-  Future<void>createTask() async {
-    final ApiResponse response =await ApiCaller().postRequest(URL: TMUrls.createTask,
-        body: {
-          "title":titleController.text,
-          "description": descriptionController.text,
-          "status":"New"
-        }
+  Future<void> createTask() async {
+    final ApiResponse response = await ApiCaller().postRequest(
+      URL: TMUrls.createTask,
+      body: {
+        "title": titleController.text,
+        "description": descriptionController.text,
+        "status": "New",
+      },
     );
 
-    if(response.isSuccess){
-
-
-     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BottomAppBar()));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('New task added')));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Something wrong..!')));
-
+    if (response.isSuccess) {
+      ScaffoldMessenger.of(context,).showSnackBar(SnackBar(content: Text('New task added')));
+    } else {
+      ScaffoldMessenger.of(context,).showSnackBar(SnackBar(content: Text('Something wrong..!')));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomBackground(child: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTitle(title: "Add New Task",),
-             SizedBox(height: 15,),
-             CustomTextField(labelText: "Subject",
-               controller: titleController,
-               validator: (value){
-                 if(value == null || value.isEmpty){
-                   return 'Please enter subject';
-                 }else{
-                   return null;
-                 }
-               },
-             ),
-              SizedBox(height: 10),
-              SizedBox(
-                height: 200,
-                child: TextFormField(
-                  controller: descriptionController,
-                  validator: (value){
-                    if(value == null || value.isEmpty){
-                      return 'Please enter description';
-                    }else{
+      body: CustomBackground(
+        child: Padding(
+          padding: const EdgeInsets.all(40),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTitle(title: "Add New Task"),
+                SizedBox(height: 15),
+                CustomTextField(
+                  labelText: "Subject",
+                  controller: titleController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter subject';
+                    } else {
                       return null;
                     }
                   },
-                  maxLines: null,
-                  expands: true,
-                  textAlignVertical: TextAlignVertical.top,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    hoverColor: Colors.transparent,
-                    labelText: "Description",
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
+                ),
+                SizedBox(height: 10),
+                SizedBox(
+                  height: 200,
+                  child: TextFormField(
+                    controller: descriptionController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter description';
+                      } else {
+                        return null;
+                      }
+                    },
+                    maxLines: null,
+                    expands: true,
+                    textAlignVertical: TextAlignVertical.top,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      hoverColor: Colors.transparent,
+                      labelText: "Description",
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15,),
-              CustomButton(onTap: () async {
-                if(_formKey.currentState!.validate()){
-                  await createTask();
-                  Navigator.pop(context, true);
-                }
-
-              },  )
-            ],
+                SizedBox(height: 15),
+                CustomButton(
+                  onTap: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await createTask();
+                      Navigator.pop(context, true);
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

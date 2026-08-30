@@ -35,25 +35,17 @@ class AuthProvider extends ChangeNotifier {
     return response.isSuccess;
   }
 
-  Future<bool> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> login({required String email, required String password}) async {
     isLoading = true;
     notifyListeners();
 
     final ApiResponse response = await ApiCaller().postRequest(
       URL: TMUrls.LoginURL,
-      body: {
-        "email": email,
-        "password": password,
-      },
+      body: {"email": email, "password": password},
     );
 
     if (response.isSuccess) {
-      UserModel model = UserModel.fromJson(
-        response.responseData['data'],
-      );
+      UserModel model = UserModel.fromJson(response.responseData['data']);
 
       String token = response.responseData['token'];
 

@@ -29,32 +29,16 @@ class _BottomBarViewState extends State<BottomBarView> {
   void initState() {
     super.initState();
 
-    // =========================
-    // GET PROFILE DATA
-    // =========================
-
-    Future.microtask(() {
-      context.read<ProfileProvider>().getUser();
-    });
+    Future.microtask(() {context.read<ProfileProvider>().getUser();});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      // =========================
-      // APP BAR
-      // =========================
-
       appBar: AppBar(
         backgroundColor: Colors.green.shade400,
         elevation: 0,
         scrolledUnderElevation: 0,
-
-        // =========================
-        // PROFILE NAME & EMAIL
-        // =========================
-
         title: Consumer<ProfileProvider>(
           builder: (context, provider, child) {
             final user = provider.userModel;
@@ -64,64 +48,37 @@ class _BottomBarViewState extends State<BottomBarView> {
               children: [
                 Text(
                   user?.firstName ?? "User",
-                  style: const TextStyle(
-                    fontSize: 17,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 17, color: Colors.white),
                 ),
 
                 Text(
                   user?.email ?? "",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ],
             );
           },
         ),
-
-        // =========================
-        // PROFILE IMAGE
-        // =========================
-
         leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 20,
-            top: 5,
-            bottom: 5,
-          ),
+          padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
           child: InkWell(
             onTap: () async {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                  const UpdateProfileView(),
+                  builder: (context) => UpdateProfileView(),
                 ),
               );
             },
 
-            child: const CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/splash.png",
-              ),
+            child: CircleAvatar(
+              backgroundImage: AssetImage("assets/splash.png"),
             ),
           ),
         ),
       ),
 
-      // =========================
-      // BODY
-      // =========================
-
       body: screens[selectedIndex],
-
-      // =========================
-      // BOTTOM NAVIGATION
-      // =========================
-
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
 
@@ -131,7 +88,7 @@ class _BottomBarViewState extends State<BottomBarView> {
           });
         },
 
-        destinations: const [
+        destinations:[
           NavigationDestination(
             icon: Icon(Icons.task_outlined),
             label: "New Task",

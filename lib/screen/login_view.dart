@@ -18,15 +18,11 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final GlobalKey<FormState> _formKey =
-  GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController emailController =
-  TextEditingController();
-
-  final TextEditingController passwordController =
-  TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -48,17 +44,12 @@ class _LoginViewState extends State<LoginView> {
               padding: const EdgeInsets.all(40),
 
               child: Column(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
 
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-
-                  CustomTitle(
-                    title: 'Get Started With',
-                  ),
+                  CustomTitle(title: 'Get Started With'),
 
                   const SizedBox(height: 20),
 
@@ -67,8 +58,7 @@ class _LoginViewState extends State<LoginView> {
                     controller: emailController,
 
                     validator: (value) {
-                      if (value == null ||
-                          value.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Please enter email';
                       }
 
@@ -83,8 +73,7 @@ class _LoginViewState extends State<LoginView> {
                     controller: passwordController,
 
                     validator: (value) {
-                      if (value == null ||
-                          value.isEmpty) {
+                      if (value == null || value.isEmpty) {
                         return 'Please enter password';
                       }
 
@@ -96,62 +85,39 @@ class _LoginViewState extends State<LoginView> {
 
                   Consumer<AuthProvider>(
                     builder: (context, provider, child) {
-
                       if (provider.isLoading) {
-                        return const Center(
-                          child:
-                          CircularProgressIndicator(),
-                        );
+                        return Center(child: CircularProgressIndicator());
                       }
 
                       return CustomButton(
                         onTap: () async {
-
-                          if (_formKey.currentState!
-                              .validate()) {
-
-                            final success =
-                            await context
+                          if (_formKey.currentState!.validate()) {
+                            final success = await context
                                 .read<AuthProvider>()
                                 .login(
-                              email:
-                              emailController.text,
+                                  email: emailController.text,
 
-                              password:
-                              passwordController
-                                  .text,
-                            );
+                                  password: passwordController.text,
+                                );
 
                             if (!context.mounted) {
                               return;
                             }
 
                             if (success) {
-
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                  const BottomBarView(),
+                                  builder: (_) => BottomBarView(),
                                 ),
                               );
 
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                const SnackBar(
-                                  content:
-                                  Text("Login Success"),
-                                ),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(content: Text("Login Success")),
                               );
-
                             } else {
-
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                const SnackBar(
-                                  content:
-                                  Text("Login Failed"),
-                                ),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(content: Text("Login Failed")),
                               );
                             }
                           }
@@ -160,9 +126,9 @@ class _LoginViewState extends State<LoginView> {
                     },
                   ),
 
-                  const SizedBox(height: 20),
+                   SizedBox(height: 20),
 
-                  const Center(
+                   Center(
                     child: Text(
                       "Forgot Password?",
                       style: TextStyle(
@@ -173,16 +139,14 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                   SizedBox(height: 10),
 
                   Center(
                     child: RichText(
                       text: TextSpan(
                         children: [
-
-                          const TextSpan(
-                            text:
-                            "Don't have an account? ",
+                           TextSpan(
+                            text: "Don't have an account? ",
 
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
@@ -197,21 +161,18 @@ class _LoginViewState extends State<LoginView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) =>
-                                    const RegistrationViewPage(),
+                                    builder: (_) => RegistrationViewPage(),
                                   ),
                                 );
                               },
 
-                              child: const Text(
+                              child: Text(
                                 "Sign Up",
 
                                 style: TextStyle(
-                                  color: CupertinoColors
-                                      .activeGreen,
+                                  color: CupertinoColors.activeGreen,
 
-                                  fontWeight:
-                                  FontWeight.w600,
+                                  fontWeight: FontWeight.w600,
 
                                   fontSize: 16,
                                 ),

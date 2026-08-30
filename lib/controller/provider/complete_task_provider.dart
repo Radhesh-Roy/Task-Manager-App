@@ -19,11 +19,8 @@ class CompleteTaskProvider extends ChangeNotifier {
     if (response.isSuccess) {
       List<TaskModel> tempList = [];
 
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(
-          TaskModel.fromJson(jsonData),
-        );
+      for (Map<String, dynamic> jsonData in response.responseData['data']) {
+        tempList.add(TaskModel.fromJson(jsonData));
       }
 
       taskList = tempList;

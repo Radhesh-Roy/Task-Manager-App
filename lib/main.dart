@@ -14,34 +14,12 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-
-        // Authentication
-        ChangeNotifierProvider(
-          create: (_) => AuthProvider(),
-        ),
-
-        // New Task
-        ChangeNotifierProvider(
-          create: (_) => TaskProvider(),
-        ),
-
-        // Progress Task
-        ChangeNotifierProvider(
-          create: (_) => ProgressTaskProvider(),
-        ),
-
-        // Cancelled Task
-        ChangeNotifierProvider(
-          create: (_) => CancelTaskProvider(),
-        ),
-        // Completed Task
-        ChangeNotifierProvider(
-          create: (_) => CompleteTaskProvider(),
-        ),
-
-        ChangeNotifierProvider(
-          create: (_) => ProfileProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => TaskProvider()),
+        ChangeNotifierProvider(create: (_) => ProgressTaskProvider()),
+        ChangeNotifierProvider(create: (_) => CancelTaskProvider()),
+        ChangeNotifierProvider(create: (_) => CompleteTaskProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
 
       child: const MyApp(),
@@ -62,9 +40,8 @@ class MyApp extends StatelessWidget {
       initialRoute: "/splash",
 
       routes: {
-        "/splash": (context) => const SplashScreenView(),
-
-        "/newtask": (context) => const NewTaskView(),
+        "/splash": (context) => SplashScreenView(),
+        "/newtask": (context) => NewTaskView(),
       },
     );
   }

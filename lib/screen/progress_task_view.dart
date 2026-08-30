@@ -12,14 +12,11 @@ class ProgressTaskView extends StatefulWidget {
 }
 
 class _ProgressTaskViewState extends State<ProgressTaskView> {
-
   @override
   void initState() {
     super.initState();
 
-    Future.microtask(() {
-      context.read<ProgressTaskProvider>().getAllTask();
-    });
+    Future.microtask(() {context.read<ProgressTaskProvider>().getAllTask();});
   }
 
   @override
@@ -35,36 +32,34 @@ class _ProgressTaskViewState extends State<ProgressTaskView> {
             builder: (context, provider, child) {
               return Expanded(
                 child: provider.isLoading
-                    ? const Center(
-                  child: CircularProgressIndicator(),
-                )
+                    ? Center(child: CircularProgressIndicator())
                     : provider.taskList.isEmpty
-                    ? const Center(
-                  child: Text(
-                    "No Task Found",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                )
+                    ? Center(
+                        child: Text(
+                          "No Task Found",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
                     : ListView.builder(
-                  itemCount: provider.taskList.length,
+                        itemCount: provider.taskList.length,
 
-                  itemBuilder: (context, index) {
-                    return CustomTaskCard(
-                      taskModel: provider.taskList[index],
+                        itemBuilder: (context, index) {
+                          return CustomTaskCard(
+                            taskModel: provider.taskList[index],
 
-                      statusColor: Colors.purple,
+                            statusColor: Colors.purple,
 
-                      refreshParent: () async {
-                        await context
-                            .read<ProgressTaskProvider>()
-                            .getAllTask();
-                      },
-                    );
-                  },
-                ),
+                            refreshParent: () async {
+                              await context
+                                  .read<ProgressTaskProvider>()
+                                  .getAllTask();
+                            },
+                          );
+                        },
+                      ),
               );
             },
           ),

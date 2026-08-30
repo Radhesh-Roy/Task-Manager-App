@@ -9,26 +9,17 @@ class ProfileProvider extends ChangeNotifier {
   bool isLoading = false;
   bool isUpdating = false;
 
-  // =========================
-  // GET PROFILE
-  // =========================
-
   Future<void> getUser() async {
     isLoading = true;
     notifyListeners();
 
-    final response = await ApiCaller().getRequest(
-      URL: TMUrls.profileDetails,
-    );
+    final response = await ApiCaller().getRequest(URL: TMUrls.profileDetails);
 
     if (response.isSuccess) {
       List<UserModel> tempList = [];
 
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(
-          UserModel.fromJson(jsonData),
-        );
+      for (Map<String, dynamic> jsonData in response.responseData['data']) {
+        tempList.add(UserModel.fromJson(jsonData));
       }
 
       if (tempList.isNotEmpty) {
@@ -40,9 +31,7 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // =========================
-  // UPDATE PROFILE
-  // =========================
+  //profile update
 
   Future<bool> updateProfile({
     required String email,
@@ -66,9 +55,6 @@ class ProfileProvider extends ChangeNotifier {
     );
 
     if (response.isSuccess) {
-      // =========================
-      // UPDATE PROVIDER DATA
-      // =========================
 
       if (userModel != null) {
         userModel!.email = email;

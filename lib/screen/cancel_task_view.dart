@@ -12,14 +12,11 @@ class CancelTaskView extends StatefulWidget {
 }
 
 class _CancelTaskViewState extends State<CancelTaskView> {
-
   @override
   void initState() {
     super.initState();
 
-    Future.microtask(() {
-      context.read<CancelTaskProvider>().getAllTask();
-    });
+    Future.microtask(() {context.read<CancelTaskProvider>().getAllTask();});
   }
 
   @override
@@ -33,19 +30,15 @@ class _CancelTaskViewState extends State<CancelTaskView> {
 
           child: Column(
             children: [
-
               Expanded(
                 child: Consumer<CancelTaskProvider>(
                   builder: (context, provider, child) {
-
                     if (provider.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return Center(child: CircularProgressIndicator());
                     }
 
                     if (provider.taskList.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: Text(
                           "No Task Found",
                           style: TextStyle(

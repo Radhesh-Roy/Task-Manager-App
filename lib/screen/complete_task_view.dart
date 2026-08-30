@@ -12,14 +12,11 @@ class CompleteTaskView extends StatefulWidget {
 }
 
 class _CompleteTaskViewState extends State<CompleteTaskView> {
-
   @override
   void initState() {
     super.initState();
 
-    Future.microtask(() {
-      context.read<CompleteTaskProvider>().getAllTask();
-    });
+    Future.microtask(() {context.read<CompleteTaskProvider>().getAllTask();});
   }
 
   @override
@@ -33,19 +30,15 @@ class _CompleteTaskViewState extends State<CompleteTaskView> {
 
           child: Column(
             children: [
-
               Expanded(
                 child: Consumer<CompleteTaskProvider>(
                   builder: (context, provider, child) {
-
                     if (provider.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return Center(child: CircularProgressIndicator());
                     }
 
                     if (provider.taskList.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: Text(
                           "No Task Found",
                           style: TextStyle(

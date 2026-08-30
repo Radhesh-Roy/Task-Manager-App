@@ -12,20 +12,12 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-
-  Future<void>nextScreen()async{
+  Future<void> nextScreen() async {
     await Future.delayed(Duration(seconds: 3));
     AuthController.getUserData();
     final bool isLogin = await AuthController.isUserLogin();
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => isLogin
-            ? const BottomBarView()
-            : const LoginView(),
-      ),
-    );
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => isLogin ? const BottomBarView() : const LoginView(),),);
   }
 
   @override
@@ -34,16 +26,18 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     super.initState();
     nextScreen();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomBackground(child: Center(child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Image.asset("assets/splash.png"),
-      ),),),
-
+      body: CustomBackground(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Image.asset("assets/splash.png"),
+          ),
+        ),
+      ),
     );
   }
 }
-
-
