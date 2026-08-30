@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/model/user_model.dart';
-import 'package:task_manager/data/service/api_caller.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/screen/cancel_task_view.dart';
 import 'package:task_manager/screen/complete_task_view.dart';
 import 'package:task_manager/screen/new_task_view.dart';
 import 'package:task_manager/screen/progress_task_view.dart';
 import 'package:task_manager/screen/update_profile_view.dart';
-import 'package:task_manager/utils/urls.dart';
+
+import '../controller/provider/profile_provider.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView({super.key});
+
   @override
   State<BottomBarView> createState() => _BottomBarViewState();
 }
+
 class _BottomBarViewState extends State<BottomBarView> {
-  List<UserModel> profileDetails = [];
   int selectedIndex = 0;
 
   final List<Widget> screens = [
@@ -23,68 +24,67 @@ class _BottomBarViewState extends State<BottomBarView> {
     const CancelTaskView(),
     const CompleteTaskView(),
   ];
+
   @override
   void initState() {
     super.initState();
-    getUser();
-  }
-  Future<void> getUser() async {
-    final response = await ApiCaller().getRequest(
-      URL: TMUrls.profileDetails,
 
-    );
+    // =========================
+    // GET PROFILE DATA
+    // =========================
 
-    if (response.isSuccess) {
-      List<UserModel> tempList = [];
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(
-          UserModel.fromJson(jsonData),
-        );
-      }
-      if (!mounted) return;
-      setState(() {
-        profileDetails = tempList;
-      });
-    } else {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            response.responseData["data"].toString(),
-          ),
-        ),
-      );
-    }
+    Future.microtask(() {
+      context.read<ProfileProvider>().getUser();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // =========================
+      // APP BAR
+      // =========================
+
       appBar: AppBar(
         backgroundColor: Colors.green.shade400,
         elevation: 0,
         scrolledUnderElevation: 0,
 
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Radhesh",
-              style: TextStyle(
-                fontSize: 17,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              "radheshroy0011@gmail.com",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
-            ),
-          ],
+        // =========================
+        // PROFILE NAME & EMAIL
+        // =========================
+
+        title: Consumer<ProfileProvider>(
+          builder: (context, provider, child) {
+            final user = provider.userModel;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user?.firstName ?? "User",
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: Colors.white,
+                  ),
+                ),
+
+                Text(
+                  user?.email ?? "",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
+
+        // =========================
+        // PROFILE IMAGE
+        // =========================
 
         leading: Padding(
           padding: const EdgeInsets.only(
@@ -93,14 +93,16 @@ class _BottomBarViewState extends State<BottomBarView> {
             bottom: 5,
           ),
           child: InkWell(
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const UpdateProfileView(),
+                  builder: (context) =>
+                  const UpdateProfileView(),
                 ),
               );
             },
+
             child: const CircleAvatar(
               backgroundImage: AssetImage(
                 "assets/splash.png",
@@ -110,7 +112,15 @@ class _BottomBarViewState extends State<BottomBarView> {
         ),
       ),
 
+      // =========================
+      // BODY
+      // =========================
+
       body: screens[selectedIndex],
+
+      // =========================
+      // BOTTOM NAVIGATION
+      // =========================
 
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
@@ -126,14 +136,17 @@ class _BottomBarViewState extends State<BottomBarView> {
             icon: Icon(Icons.task_outlined),
             label: "New Task",
           ),
+
           NavigationDestination(
             icon: Icon(Icons.refresh_outlined),
             label: "Progress",
           ),
+
           NavigationDestination(
             icon: Icon(Icons.cancel_outlined),
             label: "Cancel",
           ),
+
           NavigationDestination(
             icon: Icon(Icons.task_alt_outlined),
             label: "Completed",

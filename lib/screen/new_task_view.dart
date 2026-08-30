@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/model/task_model.dart';
-import 'package:task_manager/data/service/api_caller.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/screen/add_new_task.dart';
-import 'package:task_manager/utils/urls.dart';
 import 'package:task_manager/widget/custom_task_card.dart';
 
-import '../data/model/task-model_count.dart';
+import '../controller/provider/new_task_provider.dart';
 
 class NewTaskView extends StatefulWidget {
   const NewTaskView({super.key});
@@ -15,84 +13,13 @@ class NewTaskView extends StatefulWidget {
 }
 
 class _NewTaskViewState extends State<NewTaskView> {
-  List<TaskStatusCountModel> taskCountList = [];
-  List<TaskModel> taskList = [];
-
-  bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
 
-  Future<void> loadData() async {
-    setState(() {
-      isLoading = true;
+    Future.microtask(() {
+      context.read<TaskProvider>().loadData();
     });
-
-    await Future.wait([
-      getAllTaskCount(),
-      getAllTask(),
-    ]);
-
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> getAllTaskCount() async {
-    final response =
-    await ApiCaller().getRequest(URL: TMUrls.taskCount);
-
-    if (response.isSuccess) {
-      List<TaskStatusCountModel> tempList = [];
-
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(TaskStatusCountModel.fromJson(jsonData));
-      }
-
-      setState(() {
-        taskCountList = tempList;
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            response.responseData?['message'] ?? "Something went wrong",
-          ),
-        ),
-      );
-    }
-  }
-
-  Future<void> getAllTask() async {
-    final response =
-    await ApiCaller().getRequest(URL: TMUrls.AllTask('New'));
-
-    if (response.isSuccess) {
-      List<TaskModel> tempList = [];
-
-      for (Map<String, dynamic> jsonData
-      in response.responseData['data']) {
-        tempList.add(TaskModel.fromJson(jsonData));
-      }
-setState(() {
-  taskList = tempList;
-});
-
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            response.responseData['message'] ?? "Something went wrong",
-          ),
-        ),
-      );
-    }
   }
 
   @override
@@ -103,10 +30,12 @@ setState(() {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         shape: const CircleBorder(),
+
         child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
+
         onPressed: () async {
           await Navigator.push(
             context,
@@ -115,85 +44,134 @@ setState(() {
             ),
           );
 
-          loadData();
+          await context.read<TaskProvider>().loadData();
         },
       ),
 
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 80,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: taskCountList.length,
-                  separatorBuilder: (_, __) =>
-                      SizedBox(width: 10),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: 120,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                        BorderRadius.circular(10),
-                        boxShadow:  [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            taskCountList[index].sId ?? "",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                           SizedBox(height: 5),
-                          Text(
-                            "${taskCountList[index].sum ?? 0}",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
 
-               SizedBox(height: 15),
+          child: Consumer<TaskProvider>(
+            builder: (context, provider, child) {
+              return Column(
+                children: [
 
-              Expanded(
-                child: isLoading
-                    ?  Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : taskList.isEmpty
-                    ? Center(
-                  child: Text("No Task Found"),
-                )
-                    : ListView.builder(
-                  itemCount: taskList.length,
-                  itemBuilder: (context, index) {
-                    return CustomTaskCard(
-                      taskModel: taskList[index],
-                      statusColor: Colors.blue, refreshParent: () async {
-                      await loadData();
-                    },
-                    );
-                  },
-                ),
-              ),
-            ],
+                  // =========================
+                  // TASK COUNT
+                  // =========================
+
+                  SizedBox(
+                    height: 80,
+
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+
+                      itemCount:
+                      provider.taskCountList.length,
+
+                      separatorBuilder: (_, __) =>
+                      const SizedBox(width: 10),
+
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: 120,
+
+                          padding:
+                          const EdgeInsets.all(10),
+
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+
+                            borderRadius:
+                            BorderRadius.circular(10),
+
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+
+                          child: Column(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+
+                            children: [
+
+                              Text(
+                                provider
+                                    .taskCountList[index]
+                                    .sId ??
+                                    "",
+
+                                style: const TextStyle(
+                                  fontWeight:
+                                  FontWeight.bold,
+                                ),
+                              ),
+
+                              const SizedBox(height: 5),
+
+                              Text(
+                                "${provider.taskCountList[index].sum ?? 0}",
+
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  // =========================
+                  // TASK LIST
+                  // =========================
+
+                  Expanded(
+                    child: provider.isLoading
+                        ? const Center(
+                      child:
+                      CircularProgressIndicator(),
+                    )
+
+                        : provider.taskList.isEmpty
+                        ? const Center(
+                      child:
+                      Text("No Task Found"),
+                    )
+
+                        : ListView.builder(
+                      itemCount:
+                      provider.taskList.length,
+
+                      itemBuilder:
+                          (context, index) {
+                        return CustomTaskCard(
+                          taskModel:
+                          provider.taskList[index],
+
+                          statusColor:
+                          Colors.blue,
+
+                          refreshParent: () async {
+                            await context
+                                .read<TaskProvider>()
+                                .loadData();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/screen/login_view.dart';
-import 'package:task_manager/screen/new_task_view.dart';
-
 import '../controller/auth_controller.dart';
 import '../widget/custom_bg.dart';
 import 'bottom_bar.dart';

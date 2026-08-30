@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../data/model/task_model.dart';
-import '../data/service/api_caller.dart';
-import '../utils/urls.dart';
+import '../controller/provider/cancel_task_provider.dart';
 import '../widget/custom_task_card.dart';
 
 class CancelTaskView extends StatefulWidget {
@@ -14,70 +13,73 @@ class CancelTaskView extends StatefulWidget {
 
 class _CancelTaskViewState extends State<CancelTaskView> {
 
-  List<TaskModel>taskList = [];
-
-  Future<void>getAllTask() async {
-    final response = await ApiCaller().getRequest(URL: TMUrls.AllTask('Cancelled'));
-
-    List<TaskModel> temList=[];
-
-    if(response.isSuccess){
-      for(Map<String,dynamic>jsonData in response.responseData['data']){
-        temList.add(TaskModel.fromJson(jsonData));
-      }
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.responseData['data'])));
-    }
-    taskList = temList;
-    setState(() {
-
-    });
-
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getAllTask();
+
+    Future.microtask(() {
+      context.read<CancelTaskProvider>().getAllTask();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade200,
-        body:SafeArea(
-          child: Padding(padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: taskList.isEmpty
-                      ? const Center(
-                    child: Text(
-                      "No Task Found",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ) : ListView.builder(
-                    itemCount: taskList.length,
-                    itemBuilder: (context, index) {
-                      return CustomTaskCard(
-                        taskModel: taskList[index],
-                        statusColor: Colors.redAccent,
-                        refreshParent: () async {
-                          await getAllTask();
-                        },
-                      );
-                    },),
-                )
+      backgroundColor: Colors.grey.shade200,
 
-              ],
-            ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+
+          child: Column(
+            children: [
+
+              Expanded(
+                child: Consumer<CancelTaskProvider>(
+                  builder: (context, provider, child) {
+
+                    if (provider.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (provider.taskList.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No Task Found",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    }
+
+                    return ListView.builder(
+                      itemCount: provider.taskList.length,
+
+                      itemBuilder: (context, index) {
+                        return CustomTaskCard(
+                          taskModel: provider.taskList[index],
+
+                          statusColor: Colors.redAccent,
+
+                          refreshParent: () async {
+                            await context
+                                .read<CancelTaskProvider>()
+                                .getAllTask();
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        )
+        ),
+      ),
     );
   }
 }
